@@ -1,0 +1,6 @@
+- hosts: "all"
+  tasks:
+  - name: Fetch files.
+    fetch:
+     src: '/home/perminov_nd/test.txt'
+     dest: '/etc/ansible'
