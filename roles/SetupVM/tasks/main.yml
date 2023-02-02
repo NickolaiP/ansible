@@ -1,9 +1,29 @@
 ---
 # tasks file for SetupVM
+- name: Adding user and group for VM
+  ansible.builtin.user:
+    group: victoriametrics
+    name: victoriametrics
+- name: Downloading VM files
+  uri:
+    url: "{{ item }}"
+    dest: /tmp
+  loop:
+    - https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.87.0/victoria-metrics-linux-amd64-v1.87.0-cluster.tar.gz
+    - https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.87.0/vmutils-linux-amd64-v1.87.0.tar.gz
+- name: Creating directories for VM
+  file:
+    path="{{ item }}"
+    owner=victoriametrics
+    group=victoriametrics
+    state=directory
+  loop:
+    - /etc/victoriametrics/
+    - /var/lib/victoriametrics/
 - name: Setup VM
   copy:
-   src: {{item}}
-   dest: {{dest}}
+   src: /etc/ansible/roles/SetupVM/items/"{{item}}"
+   dest: "{{dest}}"
   loop:
     - "vminsert.service"
     - "vmselect.service"
@@ -12,7 +32,7 @@
     - "vmalert.service"
 - name: Enable VMstorage
   ansible.builtin.service:
-   name: {{item}}
+   name: "{{item}}"
    enabled: true
    state: started
   loop:
