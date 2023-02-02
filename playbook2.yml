@@ -1,0 +1,6 @@
+- name: Setup VM's cluster components
+  hosts: all
+  become: true
+
+  roles:
+    - SetupVM

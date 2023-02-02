@@ -1,0 +1,37 @@
+---
+# tasks file for SetupVM
+- name: Setup VM
+  copy:
+   src: {{item}}
+   dest: {{dest}}
+  loop:
+    - "vminsert.service"
+    - "vmselect.service"
+    - "vmagent.service"
+    - "vmstorage.service"
+    - "vmalert.service"
+- name: Enable VMstorage
+  ansible.builtin.service:
+   name: vmstorage
+   enabled: true
+   state: started
+- name: Enable VMselect
+  ansible.builtin.service:
+   name: vmselect
+   enabled: true
+   state: started
+- name: Enable VMinsert
+  ansible.builtin.service:
+   name: vminsert
+   enabled: true
+   state: started
+- name: Enable VMagent
+  ansible.builtin.service:
+   name: vmagent
+   enabled: true
+   state: started
+- name: Enable VMalert
+  ansible.builtin.service:
+   name: vmalert
+   enabled: true
+   state: started
