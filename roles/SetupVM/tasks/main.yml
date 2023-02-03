@@ -1,5 +1,10 @@
 ---
 # tasks file for SetupVM
+- name: Creating group for VM
+  ansible.builtin.group:
+    name: victoriametrics
+    state: present
+
 - name: Adding user and group for VM
   ansible.builtin.user:
     group: victoriametrics
