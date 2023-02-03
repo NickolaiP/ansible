@@ -4,13 +4,15 @@
   ansible.builtin.user:
     group: victoriametrics
     name: victoriametrics
-- name: Downloading VM files
-  uri:
-    url: "{{ item }}"
-    dest: /tmp
+
+- name: Downloading and unzipping VM files
+  ansible.builtin.unarchive:
+    src: "{{ item }}"
+    dest: /usr/local/bin
   loop:
     - https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.87.0/victoria-metrics-linux-amd64-v1.87.0-cluster.tar.gz
     - https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.87.0/vmutils-linux-amd64-v1.87.0.tar.gz
+
 - name: Creating directories for VM
   file:
     path="{{ item }}"
@@ -20,6 +22,7 @@
   loop:
     - /etc/victoriametrics/
     - /var/lib/victoriametrics/
+
 - name: Setup VM
   copy:
    src: /etc/ansible/roles/SetupVM/items/"{{item}}"
@@ -30,6 +33,18 @@
     - "vmagent.service"
     - "vmstorage.service"
     - "vmalert.service"
+
+- name: Setup VM configs
+  copy:
+   src: /etc/ansible/roles/SetupVM/files/"{{item}}"
+   dest: "{{dest_configs}}"
+  loop:
+    - "vminsert.conf"
+    - "vmselect.conf"
+    - "vmagent.conf"
+    - "vmstorage.conf"
+    - "vmalert.conf"
+
 - name: Enable VMstorage
   ansible.builtin.service:
    name: "{{item}}"
