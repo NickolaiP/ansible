@@ -21,10 +21,12 @@
   copy:
    src: /etc/ansible/roles/SetupVM/items/vminsert.service
    dest: "{{dest}}"
-- name: Setup VM configs
-  copy:
-   src: /etc/ansible/roles/SetupVM/files/vminsert.conf
-   dest: "{{dest_configs}}"
+- name: Template a config
+  ansible.builtin.template:
+    src: /etc/ansible/roles/vminsert/templates/insert-temp.j2
+    dest: /etc/victoriametrics/configs/vminsert.conf
+    owner: victoriametrics
+    group: victoriametrics
 - name: Enable VMinsert
   ansible.builtin.service:
    name: vminsert.service

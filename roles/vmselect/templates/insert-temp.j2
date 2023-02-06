@@ -1,0 +1,2 @@
+ARGS="-storageNode={% for host in groups[vm-storage] %}{{ host }}:8401{% if not loop.last %},{% endif %}{% endfor %} \
+      -loggerFormat=json"

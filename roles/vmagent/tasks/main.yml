@@ -21,10 +21,12 @@
   copy:
    src: /etc/ansible/roles/SetupVM/items/vmagent.service
    dest: "{{dest}}"
-- name: Setup VM configs
-  copy:
-   src: /etc/ansible/roles/SetupVM/files/vmagent.conf
-   dest: "{{dest_configs}}"
+- name: Template a config
+  ansible.builtin.template:
+    src: /etc/ansible/roles/vmagent/templates/agent-temp.j2
+    dest: /etc/victoriametrics/configs/vmagent.conf
+    owner: victoriametrics
+    group: victoriametrics
 - name: Enable VMagent
   ansible.builtin.service:
    name: vmagent.service

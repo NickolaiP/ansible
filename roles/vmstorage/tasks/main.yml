@@ -21,10 +21,12 @@
   copy:
    src: /etc/ansible/roles/SetupVM/items/vmstorage.service
    dest: "{{dest}}"
-- name: Setup VM configs
-  copy:
-   src: /etc/ansible/roles/SetupVM/files/vmstorage.conf
-   dest: "{{dest_configs}}"
+- name: Template a config
+  ansible.builtin.template:
+    src: /etc/ansible/roles/vmstorage/templates/storage-temp.j2
+    dest: /etc/victoriametrics/configs/vmstorage.conf
+    owner: victoriametrics
+    group: victoriametrics
 - name: Enable VMstorage
   ansible.builtin.service:
    name: vmstorage.service

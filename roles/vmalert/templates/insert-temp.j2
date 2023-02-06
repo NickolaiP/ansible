@@ -1,0 +1,5 @@
+ARGS="-rule=/etc/victoriametrics/configs/vmalert-rule.yml \
+      -datasource.url={% for host in groups[vm-storage] %}{{ host }}:8481/select/0/prometheus{% if not loop.last %},{% endif %}{% endfor %} \
+      -remoteWrite.url={% for host in groups[vm-storage] %}{{ host }}:8480/insert/0/prometheus{% if not loop.last %},{% endif %}{% endfor %} \
+      -remoteRead.url={% for host in groups[vm-storage] %}{{ host }}:8481/select/0/prometheus{% if not loop.last %},{% endif %}{% endfor %} \
+      -notifier.url=http://127.0.0.1:9093"
