@@ -1,0 +1,22 @@
+[Unit]
+Description=VictoriaMetrics-storage
+After=network.target
+
+[Service]
+Type=simple
+User=victoriametrics
+Group=victoriametrics
+EnvironmentFile=-/etc/victoriametrics/configs/vmstorage.conf
+ExecStart=/usr/local/bin/vmstorage-prod $ARGS
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+StartLimitBurst=5
+StartLimitInterval=0
+Restart=on-failure
+RestartSec=1
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity
+
+
+[Install]
+WantedBy=multi-user.target

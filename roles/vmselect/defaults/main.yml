@@ -1,0 +1,4 @@
+---
+# defaults file for SetupVM
+dest: /etc/systemd/system
+dest_config: /etc/victoriametrics/configs

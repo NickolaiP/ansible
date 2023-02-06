@@ -1,0 +1,6 @@
+- name: Setup VM storage
+  hosts: vm-storage
+  become: true
+
+  roles:
+    - vmstorage
