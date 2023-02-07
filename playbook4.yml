@@ -1,0 +1,8 @@
+- name: Setup VM cluster
+  hosts: [vm-cluster:children]
+  become: true
+
+  roles:
+    - vmstorage
+    - vminsert
+    - vmselect

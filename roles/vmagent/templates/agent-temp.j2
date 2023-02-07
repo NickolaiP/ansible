@@ -1,4 +1,4 @@
 ARGS="-promscrape.config=/etc/victoriametrics/victoriametrics.yml \
-      -remoteWrite.url={% for host in groups[vm-insert] %}{{ host }}:8480/insert/0/prometheus/api/v1/write{% if not loop.last %},{% endif %}{% endfor %} \
+      -remoteWrite.url={{ host }}:8480/insert/0/prometheus/api/v1/write \
       -remoteWrite.tmpDataPath=/var/lib/victoriametrics/cache \
       -loggerFormat=json"
